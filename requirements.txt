@@ -8,6 +8,7 @@ debugpy==1.6.0
 decorator==5.1.1
 Django==4.0.3
 djangorestframework==3.13.1
+doqu==0.28.2
 entrypoints==0.4
 executing==0.8.3
 idna==3.3
@@ -33,6 +34,7 @@ pure-eval==0.2.2
 Pygments==2.11.2
 pyparsing==3.0.7
 python-dateutil==2.8.2
+python-form==0.2.3
 pytz==2022.1
 pyzmq==22.3.0
 requests==2.27.1

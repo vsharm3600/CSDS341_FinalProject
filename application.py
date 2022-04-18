@@ -32,7 +32,7 @@ if __name__ == '__main__':
 
 
 
-@app.route("/livesearch",methods=["POST","GET"])
+@application.route("/livesearch",methods=["POST","GET"])
 def livesearch():
     searchbox = request.form.get("text")
     cursor = mysql.connection.cursor()
@@ -41,7 +41,7 @@ def livesearch():
     result = cursor.fetchall()
     return jsonify(result)
 
-    
+
 
 def residence_search(userInput):
     # given a user input of their student id, return the number of people in their residence hall that have covid
