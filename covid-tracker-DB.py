@@ -7,9 +7,16 @@ try:
 	with connect(
     	host="localhost",
     	user=input("Enter username: "),
-    	password=getpass("Enter password: "),
-    	database="covid_tracker",
+    	password=getpass("Enter password: ")
  	) as connection:
 		print(connection)
 except Error as e:
 	print(e)
+
+
+"""
+data = .csv_read()
+
+inset_query = "INSERT adfjk %d".format(data)
+
+"""

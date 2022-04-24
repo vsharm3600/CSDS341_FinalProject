@@ -37,6 +37,12 @@ def livesearch():
     test = "testing that this page works?"
     return jsonify(result, test)
 
+
+#three search functions:
+# given a user types their student id, return all people who have tested positive who live in the same residence hall
+#                                    , return all people who have tested positive who are in the same classes as them
+#                                    , return all people who have tested positive who are in the same organizations as them
+# return a count of all people who have covid on campus
     
 
 def residence_search(userInput):
