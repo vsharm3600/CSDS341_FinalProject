@@ -55,10 +55,53 @@ h1 em {
   background-color: #6695FB;
 }
 
-Body {
-  Text-align: center;
+body{
+	background: url('https://npr.brightspotcdn.com/dims4/default/3ffff66/2147483647/strip/true/crop/1461x900+501+0/resize/880x542!/quality/90/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2Flegacy%2Fsites%2Fwksu%2Ffiles%2F201711%2Fcwru.jpg') no-repeat center;
+	background-size: cover;
+	width: 100%;
+	height: 100vh;
+	text-align: center;
 }
 
 .two{
   Padding-top: 20px;
+  color: white;
+}
+
+.wrapper{
+	position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(0, 0, 0,0.6);
+    max-width: 550px;
+    width: 100%;
+    padding: 15px;
+    display: flex;
+    justify-content: space-between;
+    border-radius: 5px;
+}
+
+.wrapper .input {
+    width: 85%;
+    padding: 15px 20px;
+    border: none;
+    border-radius: 5px;
+    font-weight: bold;
+}
+
+.searchbtn {
+    background: #6695FB;
+    width: 10%;
+    border-radius: 5px;
+    position: relative;
+    cursor: pointer;
+}
+
+.searchbtn .fas{
+	position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    font-size: 18px;
 }
