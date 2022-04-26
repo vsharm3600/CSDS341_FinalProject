@@ -1,0 +1,43 @@
+given a user types their student id, return all people who have tested positive who live in the same residence hall
+SELECT s.sid
+FROM STUDENT s, STUDENT s2, RESIDENCE r, LIVESIN l, TESTS t
+WHERE s.sid = l.sid
+AND r.address = l.address
+AND t.sid = s.sid
+AND s2.sid = "input"
+AND s2.address = r.address
+AND t.has-covid = True
+
+given a user types their student id, return all people who have tested positive who are in the same classes as them
+SELECT en1.sid
+FROM ENROLLED en1, STUDENT s, TESTS t
+WHERE s.sid = t.sid
+AND t.has-covid = true
+AND en1.sid = s.sid
+AND en1.cid in 
+(SELECT s.cid
+FROM STUDENT s_input, ENROLLED en, SECTION s
+WHERE s_input.sid = en.sid
+AND s.cid = en.cid
+AND s_input.sid = "input"
+AND s.in-person = True)
+
+given a user types their student id, return all people who have tested positive who are in the same organizations as them
+SELECT p1.sid
+FROM PARTIVIPATES p1, STUDENT s, TESTS t
+WHERE s.sid = t.sid
+AND t.has-covid = true
+AND en1.sid = s.sid
+AND p1.orgid in 
+(SELECT s.cid
+FROM STUDENT s_input, PARTICIPATES p, ORGANIZATIONS o
+WHERE s_input.sid = p.sid
+AND o.orgid = o.orgid
+AND s_input.sid = "input"
+AND o.in-person = True)
+
+return a count of all people who have covid on campus
+SELECT count(s.sid)
+FROM STUDENT s, TESTS t
+WHERE s.sid = t.sid
+AND t.has-covid = True
