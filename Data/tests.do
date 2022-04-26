@@ -1,5 +1,5 @@
 // TESTS
-cd "C:\Users\K\Documents\S2022\CSDS 341\Final Project\Data"
+cd "C:\Users\K\Documents\S2022\CSDS 341\Data"
 clear
 
 // Create the total number of students
@@ -25,7 +25,7 @@ tostring month, replace
 gen day = floor(28*runiform() + 1)
 tostring day, replace
 
-gen positive_date = month + "-" + day + "-" + year if has_covid > 0
+gen positive_date = year + "-" + month + "-" + day if has_covid > 0
 
 drop rand year month day
 
