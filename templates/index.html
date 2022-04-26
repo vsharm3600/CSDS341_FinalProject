@@ -2,12 +2,18 @@
 <html>
 <head>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='css/styles.css') }}" media="screen"/>
 </head>
 <body>
+    <div class="one">
+        <h1>CWRU campus covid-tracker</h1>
+    </div>
     <input type="text" id = "livebox">
     <p id = "datalist"></p>
-</body>
-<script>
+
+    <div class="two">
+        <p id="search header">Enter student id to search for x</p>
+        <script class="two">
     $(document).ready(function(){
         $("#livebox").on("input",function(e){
             $("#datalist").empty();
@@ -27,4 +33,7 @@
         });
     });
 </script>
+    </div>
+</body>
+
 </html>
