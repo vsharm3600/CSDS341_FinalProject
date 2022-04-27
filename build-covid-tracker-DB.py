@@ -1,7 +1,9 @@
 import mysql.connector
-
 from getpass import getpass
+from pandas import read_csv
 from mysql.connector import connect, Error
+
+create_DB_query = "CREATE DATABASE covid_tracker_DB"
 
 #IMPORTANT(PLEASE READ): If you are trying to build a localhosted database use this code. Otherwise DO NOT run this file!
 create_Student_table_query = """
@@ -70,24 +72,162 @@ CREATE TABLE Participates(
 	FOREIGN Key (Sid) REFERENCES Student(Sid)
 )
 """
-		
+
+# read in data from Kevin's generated data
+df_enroll = read_csv('Data/enrolled.csv')
+df_org = read_csv('Data/organizations.csv')
+df_part = read_csv('Data/participates.csv')
+df_resid = read_csv('Data/residences.csv')
+df_sect = read_csv('Data/section.csv')
+df_stud = read_csv('Data/student.csv')
+df_tests = read_csv('Data/tests.csv')
+df_vax = read_csv('Data/vaccination.csv')
+
+data = df_stud.values
+print(data)
+
+# TODO: SWAP OUT the X's
+# first two are cursors, last one is connection
+# Create Table
+"""
+X.execute('''
+		CREATE TABLE products (
+			sid int primary key,
+			cid int
+			)
+               ''')
+
+# Insert DataFrame to Table
+for row in df_enroll.itertuples():
+    X.execute('''
+                INSERT INTO products (sid, cid)
+                VALUES (?,?)
+                ''',
+                row.sid,
+                row.cid
+                )
+X.commit()
+"""
+
 try:
 	with connect(
 		host="localhost",
 		user=input("Enter username: "),
 		password=getpass("Enter password: "),
-		database="covid_tracker_DB"
+		#database="covid_tracker_DB"
 	) as connection:
 		with connection.cursor() as cursor:
+			cursor.execute(create_DB_query)
+			connection.commit()
+
 			cursor.execute(create_Student_table_query)
+			# Insert DataFrame to Table
+			for row in df_stud.itertuples():
+				cursor.execute('''
+                INSERT INTO products (sid, cid)
+                VALUES (?,?)
+                ''',
+                row.sid,
+                row.cid
+                )
+			cursor.commit()
+		
 			cursor.execute(create_Residence_table_query)
+			# Insert DataFrame to Table
+			for row in df_resid.itertuples():
+				cursor.execute('''
+                INSERT INTO products (sid, cid)
+                VALUES (?,?)
+                ''',
+                row.sid,
+                row.cid
+                )
+			cursor.commit()
+		
 			cursor.execute(create_Section_table_query)
+			# Insert DataFrame to Table
+			for row in df_sect.itertuples():
+				cursor.execute('''
+                INSERT INTO products (sid, cid)
+                VALUES (?,?)
+                ''',
+                row.sid,
+                row.cid
+                )
+			cursor.commit()
+
 			cursor.execute(create_Orgainzations_table_query)
+			# Insert DataFrame to Table
+			for row in df_org.itertuples():
+				cursor.execute('''
+                INSERT INTO products (sid, cid)
+                VALUES (?,?)
+                ''',
+                row.sid,
+                row.cid
+                )
+			cursor.commit()
+
 			cursor.execute(create_Tests_table_query)
+			# Insert DataFrame to Table
+			for row in df_tests.itertuples():
+				cursor.execute('''
+                INSERT INTO products (sid, cid)
+                VALUES (?,?)
+                ''',
+                row.sid,
+                row.cid
+                )
+			cursor.commit()
+
 			cursor.execute(create_Vaccination_table_query)
+			# Insert DataFrame to Table
+			for row in df_vax.itertuples():
+				cursor.execute('''
+                INSERT INTO products (sid, cid)
+                VALUES (?,?)
+                ''',
+                row.sid,
+                row.cid
+                )
+			cursor.commit()
+
 			cursor.execute(create_Livesin_table_query)
+			# Insert DataFrame to Table
+			for row in df_resid.itertuples():
+				cursor.execute('''
+                INSERT INTO products (sid, cid)
+                VALUES (?,?)
+                ''',
+                row.sid,
+                row.cid
+                )
+			cursor.commit()
+
 			cursor.execute(create_Enrolled_table_query)
+			# Insert DataFrame to Table
+			for row in df_enroll.itertuples():
+				cursor.execute('''
+                INSERT INTO products (sid, cid)
+                VALUES (?,?)
+                ''',
+                row.sid,
+                row.cid
+                )
+			cursor.commit()
+		
 			cursor.execute(create_Participates_table_query)
+			# Insert DataFrame to Table
+			for row in df_part.itertuples():
+				cursor.execute('''
+                INSERT INTO products (sid, cid)
+                VALUES (?,?)
+                ''',
+                row.sid,
+                row.cid
+                )
+			cursor.commit()
+
 			connection.commit()
 except Error as e:
 	print(e)
