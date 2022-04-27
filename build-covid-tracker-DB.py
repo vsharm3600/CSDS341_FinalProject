@@ -124,11 +124,11 @@ try:
 			# Insert DataFrame to Table
 			for row in df_stud.itertuples():
 				cursor.execute('''
-                INSERT INTO products (sid, cid)
-                VALUES (?,?)
+                INSERT INTO  Student(Sid, Address)
+                VALUES (%s,%s)
                 ''',
                 row.sid,
-                row.cid
+                row.residence
                 )
 			cursor.commit()
 		
@@ -136,11 +136,11 @@ try:
 			# Insert DataFrame to Table
 			for row in df_resid.itertuples():
 				cursor.execute('''
-                INSERT INTO products (sid, cid)
-                VALUES (?,?)
+                INSERT INTO Residence (Address)
+                VALUES (%s)
                 ''',
-                row.sid,
-                row.cid
+                # need to fix residences to be 1 column
+                str(row.resid + row.ence)
                 )
 			cursor.commit()
 		
@@ -148,11 +148,11 @@ try:
 			# Insert DataFrame to Table
 			for row in df_sect.itertuples():
 				cursor.execute('''
-                INSERT INTO products (sid, cid)
-                VALUES (?,?)
+                INSERT INTO Section (Cid, inperson)
+                VALUES (%s,%s)
                 ''',
-                row.sid,
-                row.cid
+                row.cid,
+                #need to add in inperson boolean (1 or 0)
                 )
 			cursor.commit()
 
@@ -160,11 +160,13 @@ try:
 			# Insert DataFrame to Table
 			for row in df_org.itertuples():
 				cursor.execute('''
-                INSERT INTO products (sid, cid)
-                VALUES (?,?)
+                INSERT INTO Organizations (Orgid, inperson, lastmeeting)
+                VALUES (%s, %s, %s)
                 ''',
-                row.sid,
-                row.cid
+                row.orgid,
+                #need boolean for inperson
+                row.last_meeting_day
+
                 )
 			cursor.commit()
 
@@ -172,11 +174,12 @@ try:
 			# Insert DataFrame to Table
 			for row in df_tests.itertuples():
 				cursor.execute('''
-                INSERT INTO products (sid, cid)
-                VALUES (?,?)
+                INSERT INTO Tests (Sid, hascovid, positivedate)
+                VALUES (%s, %s, %s)
                 ''',
                 row.sid,
-                row.cid
+                row.has_covid,
+                row.positive_date
                 )
 			cursor.commit()
 
@@ -184,11 +187,13 @@ try:
 			# Insert DataFrame to Table
 			for row in df_vax.itertuples():
 				cursor.execute('''
-                INSERT INTO products (sid, cid)
-                VALUES (?,?)
+                INSERT INTO Vaccination (Sid, lastdosedate, numdoses, dosetype)
+                VALUES (%s, %s, %s, %s)
                 ''',
                 row.sid,
-                row.cid
+                row.last_dose_date,
+                row.num_doses,
+                row.dose_type
                 )
 			cursor.commit()
 
@@ -196,11 +201,12 @@ try:
 			# Insert DataFrame to Table
 			for row in df_resid.itertuples():
 				cursor.execute('''
-                INSERT INTO products (sid, cid)
+                INSERT INTO Livesin (Address, Sid)
                 VALUES (?,?)
                 ''',
-                row.sid,
-                row.cid
+                #Make data for lives in table
+                #row.sid,
+                #row.cid
                 )
 			cursor.commit()
 
@@ -208,11 +214,11 @@ try:
 			# Insert DataFrame to Table
 			for row in df_enroll.itertuples():
 				cursor.execute('''
-                INSERT INTO products (sid, cid)
-                VALUES (?,?)
+                INSERT INTO Enrolled (Cid, Sid)
+                VALUES (%s,%s)
                 ''',
-                row.sid,
-                row.cid
+                row.cid,
+                row.sid
                 )
 			cursor.commit()
 		
@@ -220,11 +226,11 @@ try:
 			# Insert DataFrame to Table
 			for row in df_part.itertuples():
 				cursor.execute('''
-                INSERT INTO products (sid, cid)
-                VALUES (?,?)
+                INSERT INTO Participates (Orgid, Sid)
+                VALUES (%s,%s)
                 ''',
-                row.sid,
-                row.cid
+                row.orgid,
+                row.sid
                 )
 			cursor.commit()
 
