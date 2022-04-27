@@ -24,7 +24,7 @@ AND s.in-person = True)
 
 given a user types their student id, return all people who have tested positive who are in the same organizations as them
 SELECT p1.sid
-FROM PARTIVIPATES p1, STUDENT s, TESTS t
+FROM PARTICIPATES p1, STUDENT s, TESTS t
 WHERE s.sid = t.sid
 AND t.has-covid = true
 AND en1.sid = s.sid

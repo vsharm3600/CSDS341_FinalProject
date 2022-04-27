@@ -139,8 +139,7 @@ try:
                 INSERT INTO Residence (Address)
                 VALUES (%s)
                 ''',
-                # need to fix residences to be 1 column
-                str(row.resid + row.ence)
+                row.residence
                 )
 			cursor.commit()
 		
@@ -152,7 +151,7 @@ try:
                 VALUES (%s,%s)
                 ''',
                 row.cid,
-                #need to add in inperson boolean (1 or 0)
+                row.in_person
                 )
 			cursor.commit()
 
@@ -164,7 +163,7 @@ try:
                 VALUES (%s, %s, %s)
                 ''',
                 row.orgid,
-                #need boolean for inperson
+                row.in_person,
                 row.last_meeting_day
 
                 )
