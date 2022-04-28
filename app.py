@@ -2,6 +2,7 @@ from flask import Flask, render_template, request,jsonify
 #from models import *
 # from pyforms import SearchForm
 from flaskext.mysql import MySQL
+from flask_sqlalchemy import SQLAlchemy
 import os
 
 
@@ -21,6 +22,7 @@ if 'RDS_HOSTNAME' in os.environ:
     } """
 
 # Database connection info. Note that this is not a secure connection.
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://jrd179:Xzu39641@localhost/covid_tracker_DB'
 app.config['MYSQL_DATABASE_USER'] = 'jrd179'
 app.config['MYSQL_DATABASE_PASSWORD'] = 'Xzu39641'
 app.config['MYSQL_DATABASE_DB'] = 'covid_tracker_DB'
@@ -29,6 +31,8 @@ mysql = MySQL()
 mysql.init_app(app)
 conn = mysql.connect()
 cursor = conn.cursor()
+
+print(cursor)
 
 app.secret_key = "Utn34dfRgfdi23"
 app.config['SESSION_COOKIE_NAME'] = 'User Cookie'
@@ -69,15 +73,21 @@ def search():
 @app.route("/livesearch",methods=["POST","GET"])
 def livesearch():
     searchbox = request.form.get("text")
-    cursor = mysql.connection.cursor()
-    query = "SELECT s.sid FROM STUDENT s, STUDENT s2, TESTS t WHERE t.sid = s.sid AND t.has_covid = 1 AND s2.sid = {}% AND s2.address = s.address".format(searchbox)
-    cursor.execute(query)
+    cursor = mysql.connect().cursor()
+    #query = "SELECT s.sid FROM STUDENT s, STUDENT s2, TESTS t WHERE t.Sid = s.Sid AND t.hascovid = 1 AND s2.Sid = {}% AND s2.Address = s.Address".format(searchbox)
+    query2 = "SELECT DISTINCT (s.Sid) FROM STUDENTS s, STUDENTS s2, TESTS t WHERE t.Sid = s.Sid AND t.hascovid = 1 AND s2.Sid = 67 AND s2.Address = s.Address AND s2.Sid != s.Sid"
+    query3 = "SELECT * FROM STUDENTS"
+    cursor.execute(query2)
     result = cursor.fetchall()
     #result = searchbox
-    test = "testing that this page works?"
+    test = "test message"
+    
     return jsonify(result, test)
 
 
+def returnResults(result):
+    for row in result:
+        print(row)
 #three search functions:
 # given a user types their student id, return all people who have tested positive who live in the same residence hall
 #                                    , return all people who have tested positive who are in the same classes as them
