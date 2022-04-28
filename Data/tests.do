@@ -26,6 +26,7 @@ gen day = floor(28*runiform() + 1)
 tostring day, replace
 
 gen positive_date = year + "-" + month + "-" + day if has_covid > 0
+replace positive_date = "0001-01-01" if has_covid == 0
 
 drop rand year month day
 
