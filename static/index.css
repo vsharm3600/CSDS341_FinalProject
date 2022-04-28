@@ -32,3 +32,8 @@ form.example::after {
   clear: both;
   display: table;
 }
+
+form.example button {
+  text-align: center;
+  line-height: 20px;
+}
