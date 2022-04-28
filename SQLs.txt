@@ -26,8 +26,8 @@ AND s.in-person = 1)
 
 given a user types their student id, return all people who have tested positive who are in the same organizations as them
 SELECT p1.sid
-FROM PARTICIPATES p1, STUDENT s, TESTS t
-WHERE s.sid = t.sid
+FROM PARTICIPATES p1, STUDENTS s, TESTS t
+WHERE s.Sid = t.Sid
 AND t.has-covid = 1
 AND en1.sid = s.sid
 AND p1.orgid in 
@@ -39,7 +39,7 @@ AND s_input.sid = "input"
 AND o.in-person = 1)
 
 return a count of all people who have covid on campus
-SELECT count(s.sid)
-FROM STUDENT s, TESTS t
-WHERE s.sid = t.sid
-AND t.has-covid = 1
+SELECT count(s.Sid)
+FROM STUDENTS s, TESTS t
+WHERE s.Sid = t.Sid
+AND t.hascovid = 1

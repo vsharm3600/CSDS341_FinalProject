@@ -75,11 +75,22 @@ def livesearch():
     searchbox = request.form.get("text")
     cursor = mysql.connect().cursor()
     #query = "SELECT s.sid FROM STUDENT s, STUDENT s2, TESTS t WHERE t.Sid = s.Sid AND t.hascovid = 1 AND s2.Sid = {}% AND s2.Address = s.Address".format(searchbox)
-    #query2 = "SELECT DISTINCT (s.Sid) FROM STUDENTS s, STUDENTS s2, TESTS t WHERE t.Sid = s.Sid AND t.hascovid = 1 AND s2.Sid = 67 AND s2.Address = s.Address AND s2.Sid != s.Sid"
 
-    #second query to get classmates with covid
-    query2 = "SELECT DISTINCT (en2.Sid) FROM ENROLLED en1, STUDENTS s, TESTS t, ENROLLED en2, STUDENTS s2, SECTION se WHERE s.Sid = t.Sid AND t.hascovid = 1 AND s.Sid=58 AND en1.Sid = s.Sid AND en2.Cid = en1.Cid AND s2.Sid!=s.Sid AND en2.Cid = se.Cid AND se.inperson = 1"
-    query3 = "SELECT * FROM STUDENTS"
+    # get residence mates with covid given sid CORRECT
+    query1 = "SELECT DISTINCT (s.Sid) FROM STUDENTS s, STUDENTS s2, TESTS t WHERE t.Sid = s.Sid AND t.hascovid = 1 AND s2.Sid = 67 AND s2.Address = s.Address AND s2.Sid != s.Sid"
+
+    #second query to get classmates with covid given an sid, CORRECT
+    query2 = "SELECT DISTINCT (en2.Sid) FROM ENROLLED en1, STUDENTS s, TESTS t, ENROLLED en2, STUDENTS s2, SECTION se WHERE s.Sid = t.Sid AND t.hascovid = 1 AND s.Sid=58 AND en1.Sid = 58 AND en2.Cid = en1.Cid AND s2.Sid!= 58 AND en2.Cid = se.Cid AND se.inperson = 1"
+
+
+    #third query to get sids from organzation mates that have rona, CORRECT
+    query3 = "SELECT p1.Sid FROM PARTICIPATES p1, STUDENTS s, TESTS t WHERE s.Sid = t.Sid AND t.hascovid = 1 AND p1.Sid = s.Sid AND p1.Orgid in (SELECT o.Orgid FROM STUDENTS s_input, PARTICIPATES p, ORGANIZATIONS o WHERE s_input.Sid = p.Sid AND o.Orgid = p.Orgid AND s_input.Sid = 270 AND o.inperson = 1)"
+    
+
+    #fourth query to count of all people with covid, CORRECT
+    query4 = "SELECT count(s.Sid) FROM STUDENTS s, TESTS t WHERE s.Sid = t.Sid AND t.hascovid = 1"
+
+
     cursor.execute(query2)
     result = cursor.fetchall()
     #result = searchbox
