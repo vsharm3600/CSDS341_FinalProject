@@ -47,8 +47,22 @@ def index():
 def search():
     user_input_home = request.args.get('searchterm')
     print(user_input_home)
+    print("from outside post, maybe we're getting")
     if request.method == "POST":
         user_input_home = request.form['text']
+
+
+    # get residence mates with covid given sid CORRECT (test # = 67)
+    query1 = "SELECT DISTINCT (s.Sid) FROM STUDENTS s, STUDENTS s2, TESTS t WHERE t.Sid = s.Sid AND t.hascovid = 1 AND s2.Sid = {}% AND s2.Address = s.Address AND s2.Sid != s.Sid".format(searchbox)
+
+    #second query to get classmates with covid given an sid, CORRECT
+    query2 = "SELECT DISTINCT (en2.Sid) FROM ENROLLED en1, STUDENTS s, TESTS t, ENROLLED en2, STUDENTS s2, SECTION se WHERE s.Sid = t.Sid AND t.hascovid = 1 AND s.Sid=58 AND en1.Sid = 58 AND en2.Cid = en1.Cid AND s2.Sid!= 58 AND en2.Cid = se.Cid AND se.inperson = 1"
+
+    #third query to get sids from organzation mates that have rona, CORRECT
+    query3 = "SELECT p1.Sid FROM PARTICIPATES p1, STUDENTS s, TESTS t WHERE s.Sid = t.Sid AND t.hascovid = 1 AND p1.Sid = s.Sid AND p1.Orgid in (SELECT o.Orgid FROM STUDENTS s_input, PARTICIPATES p, ORGANIZATIONS o WHERE s_input.Sid = p.Sid AND o.Orgid = p.Orgid AND s_input.Sid = 270 AND o.inperson = 1)"
+    
+    #fourth query to count of all people with covid, CORRECT
+    query4 = "SELECT count(s.Sid) FROM STUDENTS s, TESTS t WHERE s.Sid = t.Sid AND t.hascovid = 1"
 
 
     #perform database search using input
@@ -62,7 +76,6 @@ def search():
         no_such_id = "No such ID exists in our records"
         return render_template('search.html', data=no_such_id)
     return render_template('search.html', data=data)
-
 
 
 if __name__ == '__main__':
