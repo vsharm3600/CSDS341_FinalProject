@@ -109,130 +109,74 @@ for row in df_enroll.itertuples():
 X.commit()
 """
 
+#insertion queries
+insert_student_records = '''
+                INSERT INTO  Student (Sid, Address)
+                VALUES (%s,%s)
+                '''
+
+insert_residence_records = '''
+                INSERT INTO Residence (Address)
+                VALUES (%s)
+                '''
+
+insert_section_records = '''
+                INSERT INTO Section (Cid, inperson)
+                VALUES (%s,%s)
+                '''
+
+insert_organization_records = '''
+                INSERT INTO Organizations (Orgid, inperson, lastmeeting)
+                VALUES (%s, %s, %s)
+                '''
+
+insert_tests_records = '''
+                INSERT INTO Tests (Sid, hascovid, positivedate)
+                VALUES (%s, %s, %s)
+                '''
+
+insert_vaccination_records = '''
+                INSERT INTO Vaccination (Sid, lastdosedate, numdoses, dosetype)
+                VALUES (%s, %s, %s, %s)
+                '''
+
+insert_enrolled_records = '''
+                INSERT INTO Enrolled (Cid, Sid)
+                VALUES (%s,%s)
+                '''
+
+insert_participates_records = '''
+                INSERT INTO Participates (Orgid, Sid)
+                VALUES (%s,%s)
+                '''
+
+
 try:
 	with connect(
 		host="localhost",
 		user=input("Enter username: "),
 		password=getpass("Enter password: "),
-		#database="covid_tracker_DB"
+		database="covid_tracker_DB"d
 	) as connection:
 		with connection.cursor() as cursor:
-			cursor.execute(create_DB_query)
-			connection.commit()
-
-			cursor.execute(create_Student_table_query)
-			# Insert DataFrame to Table
-			for row in df_stud.itertuples():
-				cursor.execute('''
-                INSERT INTO  Student(Sid, Address)
-                VALUES (%s,%s)
-                ''',
-                row.sid,
-                row.residence
-                )
-			cursor.commit()
-		
-			cursor.execute(create_Residence_table_query)
-			# Insert DataFrame to Table
-			for row in df_resid.itertuples():
-				cursor.execute('''
-                INSERT INTO Residence (Address)
-                VALUES (%s)
-                ''',
-                row.residence
-                )
-			cursor.commit()
-		
-			cursor.execute(create_Section_table_query)
-			# Insert DataFrame to Table
-			for row in df_sect.itertuples():
-				cursor.execute('''
-                INSERT INTO Section (Cid, inperson)
-                VALUES (%s,%s)
-                ''',
-                row.cid,
-                row.in_person
-                )
-			cursor.commit()
-
-			cursor.execute(create_Orgainzations_table_query)
-			# Insert DataFrame to Table
-			for row in df_org.itertuples():
-				cursor.execute('''
-                INSERT INTO Organizations (Orgid, inperson, lastmeeting)
-                VALUES (%s, %s, %s)
-                ''',
-                row.orgid,
-                row.in_person,
-                row.last_meeting_day
-
-                )
-			cursor.commit()
-
-			cursor.execute(create_Tests_table_query)
-			# Insert DataFrame to Table
-			for row in df_tests.itertuples():
-				cursor.execute('''
-                INSERT INTO Tests (Sid, hascovid, positivedate)
-                VALUES (%s, %s, %s)
-                ''',
-                row.sid,
-                row.has_covid,
-                row.positive_date
-                )
-			cursor.commit()
-
-			cursor.execute(create_Vaccination_table_query)
-			# Insert DataFrame to Table
-			for row in df_vax.itertuples():
-				cursor.execute('''
-                INSERT INTO Vaccination (Sid, lastdosedate, numdoses, dosetype)
-                VALUES (%s, %s, %s, %s)
-                ''',
-                row.sid,
-                row.last_dose_date,
-                row.num_doses,
-                row.dose_type
-                )
-			cursor.commit()
-
-			cursor.execute(create_Livesin_table_query)
-			# Insert DataFrame to Table
-			for row in df_resid.itertuples():
-				cursor.execute('''
-                INSERT INTO Livesin (Address, Sid)
-                VALUES (?,?)
-                ''',
-                #Make data for lives in table
-                #row.sid,
-                #row.cid
-                )
-			cursor.commit()
-
-			cursor.execute(create_Enrolled_table_query)
-			# Insert DataFrame to Table
-			for row in df_enroll.itertuples():
-				cursor.execute('''
-                INSERT INTO Enrolled (Cid, Sid)
-                VALUES (%s,%s)
-                ''',
-                row.cid,
-                row.sid
-                )
-			cursor.commit()
-		
-			cursor.execute(create_Participates_table_query)
-			# Insert DataFrame to Table
-			for row in df_part.itertuples():
-				cursor.execute('''
-                INSERT INTO Participates (Orgid, Sid)
-                VALUES (%s,%s)
-                ''',
-                row.orgid,
-                row.sid
-                )
-			cursor.commit()
-
+			#cursor.execute(create_DB_query)
+			#cursor.execute(create_Student_table_query)
+			#cursor.execute(create_Residence_table_query)
+			#cursor.execute(create_Section_table_query)
+			#cursor.execute(create_Orgainzations_table_query)
+			#cursor.execute(create_Tests_table_query)
+			#cursor.execute(create_Vaccination_table_query)
+			#cursor.execute(create_Enrolled_table_query)
+			#cursor.execute(create_Participates_table_query)
+			#connection.commit()
+			cursor.executemany(insert_student_records, df_stud.values.tolist())
+			cursor.executemany(insert_residence_records, df_resid.values.tolist())
+			cursor.executemany(insert_section_records, df_sect.values.tolist())
+			cursor.executemany(insert_organization_records, df_org.values.tolist())
+			cursor.executemany(insert_tests_records, df_tests.values.tolist())
+			cursor.executemany(insert_vaccination_records, df_vax.values.tolist())
+			cursor.executemany(insert_enrolled_records, df_enroll.values.tolist())
+			cursor.executemany(insert_participates_records, df_part.values.tolist())
 			connection.commit()
 except Error as e:
 	print(e)

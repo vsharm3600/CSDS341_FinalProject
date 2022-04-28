@@ -40,11 +40,11 @@ def index():
 
 def res_search():
     searchbox = request.form.get("text")
-    #cursor = mysql.connection.cursor()
-    query = "select word_eng from words where word_eng LIKE '{}%' order by word_eng".format(searchbox)#This is just example query , you should replace field names with yours
-    #cursor.execute(query)
-    #result = cursor.fetchall()
-    result = searchbox
+    cursor = mysql.connection.cursor()
+    query = "SELECT s.sid FROM STUDENT s, STUDENT s2, TESTS t WHERE t.sid = s.sid AND t.has_covid = 1 AND s2.sid = {}% AND s2.address = s.address".format(searchbox)#This is just example query , you should replace field names with yours
+    cursor.execute(query)
+    result = cursor.fetchall()
+    #result = searchbox
     test = "testing that this page works?"
     return jsonify(result, test)
 
@@ -65,19 +65,18 @@ def search():
         return render_template('search.html', data=data)
     return render_template('search.html')
 
-"""
+
 @app.route("/livesearch",methods=["POST","GET"])
 def livesearch():
     searchbox = request.form.get("text")
-    #cursor = mysql.connection.cursor()
-    query = "select word_eng from words where word_eng LIKE '{}%' order by word_eng".format(searchbox)#This is just example query , you should replace field names with yours
-    #cursor.execute(query)
-    #result = cursor.fetchall()
-    result = searchbox
+    cursor = mysql.connection.cursor()
+    query = "SELECT s.sid FROM STUDENT s, STUDENT s2, TESTS t WHERE t.sid = s.sid AND t.has_covid = 1 AND s2.sid = {}% AND s2.address = s.address".format(searchbox)
+    cursor.execute(query)
+    result = cursor.fetchall()
+    #result = searchbox
     test = "testing that this page works?"
     return jsonify(result, test)
 
-"""
 
 #three search functions:
 # given a user types their student id, return all people who have tested positive who live in the same residence hall
