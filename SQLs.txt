@@ -7,12 +7,16 @@ AND s2.sid = "input"
 AND s2.address = s.address
 
 given a user types their student id, return all people who have tested positive who are in the same classes as them
-SELECT en1.sid
-FROM ENROLLED en1, STUDENT s, TESTS t
-WHERE s.sid = t.sid
-AND t.has_covid = 1
-AND en1.sid = s.sid
-AND en1.cid in 
+SELECT DISTINCT (en2.Sid) 
+FROM ENROLLED en1, STUDENTS s, TESTS t, ENROLLED en2, STUDENTS s2, SECTION se 
+WHERE s.Sid = t.Sid 
+AND t.hascovid = 1 
+AND s.Sid=58 AND en1.Sid = s.Sid 
+AND en2.Cid = en1.Cid AND s2.Sid!=s.Sid 
+AND en2.Cid = se.Cid 
+AND se.inperson = 1"
+
+
 (SELECT s.cid
 FROM STUDENT s_input, ENROLLED en, SECTION s
 WHERE s_input.sid = en.sid

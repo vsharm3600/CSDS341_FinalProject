@@ -75,7 +75,10 @@ def livesearch():
     searchbox = request.form.get("text")
     cursor = mysql.connect().cursor()
     #query = "SELECT s.sid FROM STUDENT s, STUDENT s2, TESTS t WHERE t.Sid = s.Sid AND t.hascovid = 1 AND s2.Sid = {}% AND s2.Address = s.Address".format(searchbox)
-    query2 = "SELECT DISTINCT (s.Sid) FROM STUDENTS s, STUDENTS s2, TESTS t WHERE t.Sid = s.Sid AND t.hascovid = 1 AND s2.Sid = 67 AND s2.Address = s.Address AND s2.Sid != s.Sid"
+    #query2 = "SELECT DISTINCT (s.Sid) FROM STUDENTS s, STUDENTS s2, TESTS t WHERE t.Sid = s.Sid AND t.hascovid = 1 AND s2.Sid = 67 AND s2.Address = s.Address AND s2.Sid != s.Sid"
+
+    #second query to get classmates with covid
+    query2 = "SELECT DISTINCT (en2.Sid) FROM ENROLLED en1, STUDENTS s, TESTS t, ENROLLED en2, STUDENTS s2, SECTION se WHERE s.Sid = t.Sid AND t.hascovid = 1 AND s.Sid=58 AND en1.Sid = s.Sid AND en2.Cid = en1.Cid AND s2.Sid!=s.Sid AND en2.Cid = se.Cid AND se.inperson = 1"
     query3 = "SELECT * FROM STUDENTS"
     cursor.execute(query2)
     result = cursor.fetchall()
