@@ -18,12 +18,12 @@
             <button id="Go Back" type="button" onclick="window.location.href=`http://127.0.0.1:5000/`" class=backbutton>Go back</button>
         </form>
         <p></p>
-        <div class="resultsreturn">
-        {% for item in data %}
+        <div class="resultsreturn">{{data}}
+        <!--{% for item in data %}
             <tr>
                 <td> {{item[0]}}, </td>
             </tr>
-        {% endfor %}
+        {% endfor %}-->
         </div>
     </body>
 </html>

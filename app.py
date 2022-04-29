@@ -84,10 +84,17 @@ def search():
 
     # all in the search box will return all the tuples
     if len(data) == 0:
-        no_such_id = "No such ID exists in our records"
-        return render_template('search.html', data=no_such_id)
-    return render_template('search.html', data=data)
+        no_such_id = "No covid exposure for that ID exists in our records"
+        no_exposure = "You have not been exposed via {}".format(searchtype)
+        return render_template('search.html', data=no_exposure)
+    return render_template('search.html', data=data_return(str(data)))
 
+def data_return(data):
+    output = ""
+    for i in range(len(data)):
+        if(data[i] != "(" or data[i] != ")" or data[i] != ","):
+            output += str(data[i])
+    return output
 
 if __name__ == '__main__':
     app.run(port=5000, debug=True)

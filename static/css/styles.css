@@ -85,12 +85,22 @@ body{
     font-weight: bold;
 }
 
+.wrapper .dropdowntext {
+    color: whitesmoke;
+    font-family: "Raleway", sans-serif;
+}
 .searchbtn {
     background: #6695FB;
     width: 10%;
     border-radius: 5px;
     position: relative;
     cursor: pointer;
+}
+
+select#searchdropdown {
+    height: 20px;
+    font-family: "Raleway", sans-serif;
+    line-height: 20px;
 }
 
 .searchbtn .fas{
