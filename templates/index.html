@@ -10,12 +10,27 @@
         <h1>CWRU campus covid-tracker</h1>
     </div>
     
+
+
     <div class="wrapper">
+        <form action="/">
+            <label for="searchdropdown">Choose a search result:</label>
+            <select name="searchdropdown" id="dropdown">
+                <!--<optgroup label="searchtype" id="searchbaroption">-->
+                    <option value="residents">return student id's of fellow residents with covid</option>
+                    <option value="classmates">return student id's of fellow classmates with covid</option>
+                    <option value="organizations">return student id's of fellow organization members with covid</option>
+                    <option value="count">return the total number of students in CWRU that have covid</option>
+                <!--</optgroup>-->
+            </select>
+            <br><br>
+        </form>
         <input type="text" id="bar" class="input" 
             placeholder="Enter student id to search for residence exposure">
-        <div class="searchbtn" onclick="window.location.href=`http://127.0.0.1:5000/search?searchterm=${document.getElementById('bar').value}`"><i class="fas fa-search"></i>
+        <div class="searchbtn" type="submit" onclick="window.location.href=`http://127.0.0.1:5000/search?searchterm=${document.getElementById('bar').value}&searchtype=${document.getElementById('dropdown').value}`"><i class="fas fa-search"></i>
         </div>
     </div>
 </body>
 
 </html>
+

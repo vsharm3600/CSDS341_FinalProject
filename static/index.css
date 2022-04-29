@@ -1,6 +1,63 @@
 /* CSS for search file */
-body {
-  font-family: Arial;
+h1 {
+  position: relative;
+  padding: 0;
+  margin: 0;
+  font-family: "Raleway", sans-serif;
+  font-weight: 300;
+  font-size: 40px;
+  color: #080808;
+  Background-color: #EDF2FD;
+  -webkit-transition: all 0.4s ease 0s;
+  -o-transition: all 0.4s ease 0s;
+  transition: all 0.4s ease 0s;
+}
+
+h1 span {
+  display: block;
+  font-size: 0.5em;
+  line-height: 1.3;
+}
+h1 em {
+  font-style: normal;
+  font-weight: 600;
+}
+
+/* === HEADING STYLE #1 === */
+.one h1 {
+  text-align: center;
+  text-transform: uppercase;
+  padding-bottom: 5px;
+}
+.one h1:before {
+  width: 28px;
+  height: 5px;
+  display: block;
+  content: "";
+  position: absolute;
+  bottom: 3px;
+  left: 50%;
+  margin-left: -14px;
+  background-color: #6695FB;
+}
+.one h1:after {
+  width: 100px;
+  height: 1px;
+  display: block;
+  content: "";
+  position: relative;
+  margin-top: 25px;
+  left: 50%;
+  margin-left: -50px;
+  background-color: #6695FB;
+}
+
+body{
+  background: url('https://npr.brightspotcdn.com/dims4/default/3ffff66/2147483647/strip/true/crop/1461x900+501+0/resize/880x542!/quality/90/?url=http%3A%2F%2Fnpr-brightspot.s3.amazonaws.com%2Flegacy%2Fsites%2Fwksu%2Ffiles%2F201711%2Fcwru.jpg') no-repeat center;
+  background-size: cover;
+  width: 100%;
+  height: 100vh;
+  text-align: center;
 }
 * {
   box-sizing: border-box;
@@ -12,17 +69,19 @@ form.example input[type=text] {
   float: left;
   width: 80%;
   background: #f1f1f1;
+  border-radius: 5px;
 }
 form.example button {
   float: left;
   width: 20%;
   padding: 10px;
-  background: #2196F3;
+  background: #6695FB;
   color: white;
   font-size: 17px;
   border: 1px solid grey;
   border-left: none;
   cursor: pointer;
+  border-radius: 5px;
 }
 form.example button:hover {
   background: #0b7dda;
@@ -36,4 +95,19 @@ form.example::after {
 form.example button {
   text-align: center;
   line-height: 20px;
+  border-radius: 5px;
+  background: #6695FB;
+}
+
+.resultsreturn {
+  background: #f1f1f1;
+  width: 40%;
+  text-align: center;
+  line-height: 40px;
+  margin: auto;
+  width: 60%;
+  border: 1px #solid grey;
+  padding: 10px;
+  border-radius: 5px;
+
 }
