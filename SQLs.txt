@@ -1,45 +1,44 @@
+NOTE: for queries with '{}%' is used to represent a user input
+
+
 given a user types their student id, return all people who have tested positive who live in the same residence hall
-SELECT s.sid
-FROM STUDENT s, STUDENT s2, TESTS t
-WHERE t.sid = s.sid
-AND t.has_covid = 1
-AND s2.sid = "input"
-AND s2.address = s.address
+SELECT DISTINCT (s.Sid) 
+FROM STUDENTS s, STUDENTS s2, TESTS t 
+WHERE t.Sid = s.Sid 
+AND t.hascovid = 1 
+AND s2.Sid = '{}%' 
+AND s2.Address = s.Address 
+AND s2.Sid != s.Sid
+
 
 given a user types their student id, return all people who have tested positive who are in the same classes as them
 SELECT DISTINCT (en2.Sid) 
 FROM ENROLLED en1, STUDENTS s, TESTS t, ENROLLED en2, STUDENTS s2, SECTION se 
 WHERE s.Sid = t.Sid 
 AND t.hascovid = 1 
-AND s.Sid=58 AND en1.Sid = s.Sid 
-AND en2.Cid = en1.Cid AND s2.Sid!=s.Sid 
+AND s.Sid='{}%' 
+AND en1.Sid = '{}%' 
+AND en2.Cid = en1.Cid 
 AND en2.Cid = se.Cid 
-AND se.inperson = 1"
+AND se.inperson = 1
 
-
-(SELECT s.cid
-FROM STUDENT s_input, ENROLLED en, SECTION s
-WHERE s_input.sid = en.sid
-AND s.cid = en.cid
-AND s_input.sid = "input"
-AND s.in-person = 1)
 
 given a user types their student id, return all people who have tested positive who are in the same organizations as them
-SELECT p1.sid
-FROM PARTICIPATES p1, STUDENTS s, TESTS t
-WHERE s.Sid = t.Sid
-AND t.has-covid = 1
-AND en1.sid = s.sid
-AND p1.orgid in 
-(SELECT s.cid
-FROM STUDENT s_input, PARTICIPATES p, ORGANIZATIONS o
-WHERE s_input.sid = p.sid
-AND o.orgid = o.orgid
-AND s_input.sid = "input"
-AND o.in-person = 1)
+SELECT p1.Sid 
+FROM PARTICIPATES p1, STUDENTS s, TESTS t 
+WHERE s.Sid = t.Sid 
+AND t.hascovid = 1 
+AND p1.Sid = s.Sid 
+AND p1.Orgid in (SELECT o.Orgid 
+		FROM STUDENTS s_input, PARTICIPATES p, ORGANIZATIONS o 
+		WHERE s_input.Sid = p.Sid 
+		AND o.Orgid = p.Orgid 
+		AND s_input.Sid = '{}%' 
+		AND o.inperson = 1)
+    
 
 return a count of all people who have covid on campus
-SELECT count(s.Sid)
-FROM STUDENTS s, TESTS t
-WHERE s.Sid = t.Sid
-AND t.hascovid = 1
+SELECT count(s.Sid) 
+FROM STUDENTS s, TESTS t 
+WHERE s.Sid = t.Sid 
+AND t.hascovid = 1"
