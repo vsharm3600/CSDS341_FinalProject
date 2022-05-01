@@ -7,19 +7,7 @@ import os
 
 
 app = Flask(__name__)
-# database connection via integrated db in elastic beanstalk
-"""
-if 'RDS_HOSTNAME' in os.environ:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'mysql',
-            'NAME': os.environ['RDS_DB_NAME'],
-            'USER': os.environ['RDS_USERNAME'],
-            'PASSWORD': os.environ['RDS_PASSWORD'],
-            'HOST': os.environ['RDS_HOSTNAME'],
-            'PORT': os.environ['RDS_PORT'],
-        }
-    } """
+
 
 # Database connection info. Note that this is not a secure connection.
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql://jrd179:Xzu39641@localhost/covid_tracker_DB'
@@ -32,7 +20,6 @@ mysql.init_app(app)
 conn = mysql.connect()
 cursor = conn.cursor()
 
-print(cursor)
 
 app.secret_key = "Utn34dfRgfdi23"
 app.config['SESSION_COOKIE_NAME'] = 'User Cookie'
@@ -46,37 +33,37 @@ def index():
 @app.route('/search', methods=['GET', 'POST'])
 def search():
     user_input_home = request.args.get('searchterm')
-    print(user_input_home)
+
     if request.method == "POST":
         user_input_home = request.form['text']
 
     #template for different searches using dropdown
     searchtype = request.args.get('searchtype')
-    print(type(searchtype))
+
     if(searchtype == "residents"):
         print("searching residents")
         # get residence mates with covid given sid CORRECT (test # = 67)
-        query = "SELECT DISTINCT (s.Sid) FROM STUDENTS s, STUDENTS s2, TESTS t WHERE t.Sid = s.Sid AND t.hascovid = 1 AND s2.Sid = '{}%' AND s2.Address = s.Address AND s2.Sid != s.Sid".format(user_input_home)
+        query = "SELECT DISTINCT (s.sid) FROM STUDENTS s, STUDENTS s2, TESTS t WHERE t.sid = s.sid AND t.hascovid = 1 AND s2.sid = '{}%' AND s2.address = s.address AND s2.sid != s.sid".format(user_input_home)
 
     elif(searchtype == "classmates"):
         print("searching classmates")
         #second query to get classmates with covid given an sid, CORRECT
-        query = "SELECT DISTINCT (en2.Sid) FROM ENROLLED en1, STUDENTS s, TESTS t, ENROLLED en2, STUDENTS s2, SECTION se WHERE s.Sid = t.Sid AND t.hascovid = 1 AND s.Sid='{}%' AND en1.Sid = '{}%' AND en2.Cid = en1.Cid AND s2.Sid!= 58 AND en2.Cid = se.Cid AND se.inperson = 1".format(user_input_home, user_input_home)
+        query = "SELECT DISTINCT (en2.sid) FROM ENROLLED en1, STUDENTS s, TESTS t, ENROLLED en2, STUDENTS s2, SECTION se WHERE s.sid = t.sid AND t.hascovid = 1 AND s.sid='{}%' AND en1.sid = '{}%' AND en2.cid = en1.cid AND en2.cid = se.cid AND se.inperson = 1".format(user_input_home, user_input_home)
 
     elif(searchtype == "organizations"):
         print("searching orgs")
         #third query to get sids from organzation mates that have rona, CORRECT
-        query = "SELECT p1.Sid FROM PARTICIPATES p1, STUDENTS s, TESTS t WHERE s.Sid = t.Sid AND t.hascovid = 1 AND p1.Sid = s.Sid AND p1.Orgid in (SELECT o.Orgid FROM STUDENTS s_input, PARTICIPATES p, ORGANIZATIONS o WHERE s_input.Sid = p.Sid AND o.Orgid = p.Orgid AND s_input.Sid = '{}%' AND o.inperson = 1)".format(user_input_home)
+        query = "SELECT p1.sid FROM PARTICIPATES p1, STUDENTS s, TESTS t WHERE s.sid = t.sid AND t.hascovid = 1 AND p1.sid = s.sid AND p1.orgid in (SELECT o.orgid FROM STUDENTS s_input, PARTICIPATES p, ORGANIZATIONS o WHERE s_input.sid = p.sid AND o.orgid = p.orgid AND s_input.sid = '{}%' AND o.inperson = 1)".format(user_input_home)
     
     elif(searchtype == "count"):
         print("searching count")
         #fourth query to count of all people with covid, CORRECT
-        query = "SELECT count(s.Sid) FROM STUDENTS s, TESTS t WHERE s.Sid = t.Sid AND t.hascovid = 1"
+        query = "SELECT count(s.sid) FROM STUDENTS s, TESTS t WHERE s.sid = t.sid AND t.hascovid = 1"
 
     else:
         #perform database search using input
         print("USING DEFAULT SEARCH")
-        query = "SELECT DISTINCT (s.Sid) FROM STUDENTS s, STUDENTS s2, TESTS t WHERE t.Sid = s.Sid AND t.hascovid = 1 AND s2.Sid = '{}%' AND s2.Address = s.Address AND s2.Sid != s.Sid".format(user_input_home)
+        query = "SELECT DISTINCT (s.sid) FROM STUDENTS s, STUDENTS s2, TESTS t WHERE t.sid = s.sid AND t.hascovid = 1 AND s2.sid = '{}%' AND s2.address = s.address AND s2.sid != s.sid".format(user_input_home)
     
     cursor.execute(query)
     conn.commit()

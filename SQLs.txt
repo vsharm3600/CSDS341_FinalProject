@@ -2,43 +2,43 @@ NOTE: for queries with '{}%' is used to represent a user input
 
 
 given a user types their student id, return all people who have tested positive who live in the same residence hall
-SELECT DISTINCT (s.Sid) 
+SELECT DISTINCT (s.sid) 
 FROM STUDENTS s, STUDENTS s2, TESTS t 
-WHERE t.Sid = s.Sid 
+WHERE t.sid = s.sid 
 AND t.hascovid = 1 
-AND s2.Sid = '{}%' 
-AND s2.Address = s.Address 
-AND s2.Sid != s.Sid
+AND s2.sid = '{}%' 
+AND s2.address = s.address 
+AND s2.sid != s.sid
 
 
 given a user types their student id, return all people who have tested positive who are in the same classes as them
-SELECT DISTINCT (en2.Sid) 
+SELECT DISTINCT (en2.sid) 
 FROM ENROLLED en1, STUDENTS s, TESTS t, ENROLLED en2, STUDENTS s2, SECTION se 
-WHERE s.Sid = t.Sid 
+WHERE s.sid = t.sid 
 AND t.hascovid = 1 
-AND s.Sid='{}%' 
-AND en1.Sid = '{}%' 
-AND en2.Cid = en1.Cid 
-AND en2.Cid = se.Cid 
+AND s.sid='{}%' 
+AND en1.sid = '{}%' 
+AND en2.cid = en1.cid 
+AND en2.cid = se.cid 
 AND se.inperson = 1
 
 
 given a user types their student id, return all people who have tested positive who are in the same organizations as them
-SELECT p1.Sid 
+SELECT p1.sid 
 FROM PARTICIPATES p1, STUDENTS s, TESTS t 
-WHERE s.Sid = t.Sid 
+WHERE s.sid = t.sid 
 AND t.hascovid = 1 
-AND p1.Sid = s.Sid 
-AND p1.Orgid in (SELECT o.Orgid 
+AND p1.sid = s.sid 
+AND p1.orgid in (SELECT o.orgid 
 		FROM STUDENTS s_input, PARTICIPATES p, ORGANIZATIONS o 
-		WHERE s_input.Sid = p.Sid 
-		AND o.Orgid = p.Orgid 
-		AND s_input.Sid = '{}%' 
+		WHERE s_input.sid = p.sid 
+		AND o.orgid = p.orgid 
+		AND s_input.sid = '{}%' 
 		AND o.inperson = 1)
     
 
 return a count of all people who have covid on campus
-SELECT count(s.Sid) 
+SELECT count(s.sid) 
 FROM STUDENTS s, TESTS t 
-WHERE s.Sid = t.Sid 
+WHERE s.sid = t.sid 
 AND t.hascovid = 1"
