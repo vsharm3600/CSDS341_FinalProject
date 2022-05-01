@@ -70,7 +70,6 @@ df_stud = read_csv('Data/student.csv')
 df_tests = read_csv('Data/tests.csv')
 df_vax = read_csv('Data/vaccination.csv')
 
-
 #insertion queries
 insert_student_records = '''
                 INSERT INTO  Student (Sid, Address)
@@ -113,25 +112,44 @@ try:
 		host="localhost",
 		user=input("Enter username: "),
 		password=getpass("Enter password: "),
-		database="covid_tracker_DB"
 	) as connection:
 		with connection.cursor() as cursor:
 			cursor.execute(create_DB_query)
 			cursor.execute(create_Student_table_query)
+			for i,row in df_stud.iterrows():
+            			sql = "INSERT INTO covid_tracker_DB.Student VALUES (%s,%s)"
+            			cursor.execute(sql, tuple(row))
+            			cursor.commit()
 			cursor.execute(create_Section_table_query)
+			for i,row in df_sect.iterrows():
+            			sql = "INSERT INTO covid_tracker_DB.Section VALUES (%s,%s)"
+            			cursor.execute(sql, tuple(row))
+            			cursor.commit()
 			cursor.execute(create_Orgainzations_table_query)
+			for i,row in df_org.iterrows():
+            			sql = "INSERT INTO covid_tracker_DB.Organizations VALUES (%s,%s,%s)"
+            			cursor.execute(sql, tuple(row))
+            			cursor.commit()
 			cursor.execute(create_Tests_table_query)
+			for i,row in df_tests.iterrows():
+            			sql = "INSERT INTO covid_tracker_DB.Tests VALUES (%s,%s)"
+            			cursor.execute(sql, tuple(row))
+            			cursor.commit()
 			cursor.execute(create_Vaccination_table_query)
+			for i,row in df_vax.iterrows():
+            			sql = "INSERT INTO covid_tracker_DB.Vaccination VALUES (%s,%s,%s,%s)"
+            			cursor.execute(sql, tuple(row))
+            			cursor.commit()
 			cursor.execute(create_Enrolled_table_query)
+			for i,row in df_enroll.iterrows():
+            			sql = "INSERT INTO covid_tracker_DB.Enrolled VALUES (%s,%s)"
+            			cursor.execute(sql, tuple(row))
+            			cursor.commit()
 			cursor.execute(create_Participates_table_query)
-			connection.commit()
-			cursor.executemany(insert_student_records, df_stud.values.tolist())
-			cursor.executemany(insert_section_records, df_sect.values.tolist())
-			cursor.executemany(insert_organization_records, df_org.values.tolist())
-			cursor.executemany(insert_tests_records, df_tests.values.tolist())
-			cursor.executemany(insert_vaccination_records, df_vax.values.tolist())
-			cursor.executemany(insert_enrolled_records, df_enroll.values.tolist())
-			cursor.executemany(insert_participates_records, df_part.values.tolist())
+			for i,row in df_part.iterrows():
+            			sql = "INSERT INTO covid_tracker_DB.Participates VALUES (%s,%s)"
+            			cursor.execute(sql, tuple(row))
+            			cursor.commit()
 			connection.commit()
 except Error as e:
 	print(e)
