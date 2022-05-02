@@ -70,7 +70,7 @@ df_stud = read_csv('Data/student.csv')
 df_tests = read_csv('Data/tests.csv')
 df_vax = read_csv('Data/vaccination.csv')
 
-#insertion queries
+#old insertion queries that are not used
 insert_student_records = '''
                 INSERT INTO  Student (Sid, Address)
                 VALUES (%s,%s)
